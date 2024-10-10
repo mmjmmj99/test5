@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1medical</title>
+    <link rel="stylesheet" href="1medical.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="scrub.html">Scrub</a></li>
+                <li><a href="1medical.html">1medical</a></li>
+                <li><a href="1dental.html">1dental</a></li>
+                <li><a href="cart.html" ><img src="shopping-bag.png" alt="cart" class="cart" height="40px" width="40px"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="product-container">
+            <!-- Line 1 -->
+            <div class="product-card" data-name="Product Name 1" data-price="10.00" data-image="image1.jpg">
+                <img src="image1.jpg" alt="Product 1">
+                <h3>Product Name 1</h3>
+                <p>$10.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+            <div class="product-card" data-name="Product Name 2" data-price="15.00" data-image="image2.jpg">
+                <img src="image2.jpg" alt="Product 2">
+                <h3>Product Name 2</h3>
+                <p>$15.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details"><a href="show.html">show Details</a></button>
+            </div>
+            <div class="product-card" data-name="Product Name 3" data-price="20.00" data-image="image3.jpg">
+                <img src="image3.jpg" alt="Product 3">
+                <h3>Product Name 3</h3>
+                <p>$20.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+
+            <!-- Line 2 -->
+            <div class="product-card" data-name="Product Name 4" data-price="12.00" data-image="image4.jpg">
+                <img src="image4.jpg" alt="Product 4">
+                <h3>Product Name 4</h3>
+                <p>$12.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+            <div class="product-card" data-name="Product Name 5" data-price="18.00" data-image="image5.jpg">
+                <img src="image5.jpg" alt="Product 5">
+                <h3>Product Name 5</h3>
+                <p>$18.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+            <div class="product-card" data-name="Product Name 6" data-price="25.00" data-image="image6.jpg">
+                <img src="image6.jpg" alt="Product 6">
+                <h3>Product Name 6</h3>
+                <p>$25.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+
+            <!-- Line 3 -->
+            <div class="product-card" data-name="Product Name 7" data-price="14.00" data-image="image7.jpg">
+                <img src="image7.jpg" alt="Product 7">
+                <h3>Product Name 7</h3>
+                <p>$14.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+            <div class="product-card" data-name="Product Name 8" data-price="22.00" data-image="image8.jpg">
+                <img src="image8.jpg" alt="Product 8">
+                <h3>Product Name 8</h3>
+                <p>$22.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+            <div class="product-card" data-name="Product Name 9" data-price="30.00" data-image="image9.jpg">
+                <img src="image9.jpg" alt="Product 9">
+                <h3>Product Name 9</h3>
+                <p>$30.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+
+            <!-- Line 4 -->
+            <div class="product-card" data-name="Product Name 10" data-price="16.00" data-image="image10.jpg">
+                <img src="image10.jpg" alt="Product 10">
+                <h3>Product Name 10</h3>
+                <p>$16.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+            <div class="product-card" data-name="Product Name 11" data-price="28.00" data-image="image11.jpg">
+                <img src="image11.jpg" alt="Product 11">
+                <h3>Product Name 11</h3>
+                <p>$28.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+            <div class="product-card" data-name="Product Name 12" data-price="35.00" data-image="image12.jpg">
+                <img src="image12.jpg" alt="Product 12">
+                <h3>Product Name 12</h3>
+                <p>$35.00</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="view-details">Show Details</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.product-card');
+                const name = card.getAttribute('data-name');
+                const price = card.getAttribute('data-price');
+                const image = card.getAttribute('data-image');
+
+                const cartItem = {
+                    name: name,
+                    price: price,
+                    image: image
+                };
+
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(cartItem);
+                localStorage.setItem('cart', JSON.stringify(cart));
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,213 @@
+/* General styles for body and header */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #113a4d 10%, transparent),
+    url(IMG_8589.PNG);
+    color: #fff;
+    width: 100%;
+    height: 100vh;
+}
+
+header {
+    background: linear-gradient(to right, rgb(3, 94, 110) 40%, transparent);
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation menu styles */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 8px 16px;
+    transition: background-color 0.3s;
+}
+
+
+nav ul li a .cart{
+    position: absolute;
+    right: 3px;
+    top: 10px;
+}
+
+
+nav ul li a:hover {
+    background-color: #097486;
+    border-radius: 4px;
+}
+
+/* Highlight the Accessories link */
+nav ul li:nth-child(4) a,
+nav ul li a.highlight {
+    background-color: #156574;
+    border-radius: 4px;
+    box-shadow: 0 0 10px #02264e, 0 0 20px #095988, 0 0 30px #11acc7;
+}
+
+/* Styles for product container and cards */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+}
+
+.product-card {
+    background-color: #dddddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    margin: 15px;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-card img {
+    border-radius: 5px;
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.product-card h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.product-card p {
+    font-size: 1em;
+    margin: 5px 0;
+    color: #fff;
+}
+
+.product-card .add-to-cart,
+.product-card .view-details {
+    background-color: #125963;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.product-card .add-to-cart:hover,
+.product-card .view-details:hover {
+    background-color: #1F618D;
+}
+
+/* Keyframes for pop-up effect */
+@keyframes popup {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Apply the pop-up effect to product card */
+.product-card:hover {
+    animation: popup 0.3s ease-in-out forwards;
+}
+
+/* Apply the pop-up effect to buttons */
+.product-card .add-to-cart:hover,
+.product-card .view-details:hover {
+    animation: popup 0.3s ease-in-out forwards;
+}
+
+
+@media (min-width:800px) and (max-width:1200px) {
+    header {
+        padding: 17px 0;
+
+    }
+    
+}
+
+@media (min-width:500px) and (max-width:800px) {
+    header {
+        padding: 13px , 0;
+    }
+}
+@media (max-width:500px) {
+    header {
+        padding: 13px , 0;
+    }
+
+    nav{
+        display: flex;
+        justify-content: space-between;
+        padding: 2px;
+    }
+
+    nav ul li{
+        margin: 0 1px;
+    }
+
+    nav ul li a{
+        font-size: 18px;
+
+    }
+
+    nav ul li a .cart{
+        position: absolute;
+        right: 3px;
+        top: 10px;
+    }
+}
+
+@media (max-width:414px) {
+    
+    header {
+        padding: 11px 0;
+    }
+
+
+    nav{
+        display: flex;
+        justify-content: space-between;
+        padding: -2px;
+    }
+
+    nav ul li{
+        margin: 0 -6px;
+    }
+
+    nav ul li a{
+        font-size: 15px;
+
+    }
+
+
+    nav ul li a .cart{
+        position: absolute;
+        right: 3px;
+        top: 5px;
+    }
+}

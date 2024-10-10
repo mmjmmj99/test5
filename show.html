@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="show.css">
+</head>
+<body>
+    <div class="container">
+        <div class="photo-gallery">
+            <div class="main-photo">
+                <img src="photo1.jpg" alt="Main Product Photo" id="main-photo">
+            </div>
+            <div class="thumbnail-gallery">
+                <img src="photo1.jpg" alt="Thumbnail 1" class="thumbnail" onclick="changePhoto('photo1.jpg')">
+                <img src="photo2.jpg" alt="Thumbnail 2" class="thumbnail" onclick="changePhoto('photo2.jpg')">
+                <img src="photo3.jpg" alt="Thumbnail 3" class="thumbnail" onclick="changePhoto('photo3.jpg')">
+                <!-- Add more thumbnails as needed -->
+            </div>
+        </div>
+        <div class="product-details">
+            <h1>Product Name</h1>
+            <p><strong>Price:</strong> $99.99</p>
+            <p><strong>Description:</strong> This is a great product that you will love.</p>
+            <!-- Add more product properties as needed -->
+        </div>
+        <button class="back-button" onclick="window.history.back()">Back</button>
+    </div>
+
+    <script>
+        function changePhoto(photoUrl) {
+            document.getElementById('main-photo').src = photoUrl;
+        }
+    </script>
+</body>
+</html>

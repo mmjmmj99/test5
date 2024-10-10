@@ -1,0 +1,95 @@
+body {
+    height: 70vh;
+    width: 100%;
+    background:url(IMG_8589.PNG) ;
+    display: flex;
+    user-select: none;
+}
+
+
+.container {
+    height: 600px;
+    width: 350px;
+    background-color: rgb(23, 93, 126);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    padding: 10px;
+}
+
+
+
+
+.Phone{
+    align-items: center;
+    display: flex;   
+    margin: 0 6px;
+    color: white;
+    font-size: larger;
+    font-family: sans-serif;
+}
+
+
+
+
+.Phone h3 a{
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+
+.Phone h3 a:hover {
+    color: rgb(2, 59, 97);
+}
+
+
+
+.WhatsApp {
+    align-items: center;
+    display: flex;   
+    margin: 0 6px;
+    color: white;
+    font-size: larger;
+    font-family: sans-serif;
+}
+
+
+
+.WhatsApp h3 a{
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+
+.WhatsApp h3 a:hover {
+    color: rgb(2, 59, 97);
+}
+
+.Instagram {
+    align-items: center;
+    display: flex;   
+    margin: 0 6px;
+    color: white;
+    font-size: larger;
+    font-family: sans-serif;
+}
+
+
+
+.Instagram h3 a{
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+
+.Instagram h3 a:hover {
+    color: rgb(2, 59, 97);
+}
