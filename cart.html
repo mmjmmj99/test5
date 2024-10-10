@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart Page</title>
     <link rel="stylesheet" href="cart.css">
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -109,12 +112,98 @@
 
 
 
-
-
-
-
-
     <script>
+
+
+
+
+// Firebase configuration
+const firebaseConfig = {
+        apiKey: "AIzaSyAO2m0XnUgE6LhgK1E8sN2Tx_8jyNgWOtg",
+        authDomain: "job1-c4a0b.firebaseapp.com",
+        projectId: "job1-c4a0b",
+        storageBucket: "job1-c4a0b.appspot.com",
+        messagingSenderId: "734019774401",
+        appId: "1:734019774401:web:fb09bd4d3d8bf8fc5ab140",
+        measurementId: "G-TBHCSHVLXQ"
+    };
+    
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(); // Initialize Firestore
+    
+    // Load cart items function remains unchanged
+    function loadCartItems() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+        cartItemsContainer.innerHTML = ''; // Clear any existing items
+    
+        cart.forEach((item, index) => {
+            const itemHTML = `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-details">
+                        <h2>${item.name}</h2>
+                        <p class="item-price">Price: $<span class="price">${item.price}</span></p>
+                        <label for="quantity${index}">Quantity:</label>
+                        <input type="number" id="quantity${index}" name="quantity${index}" min="1" value="1" class="quantity-input">
+                        <button class="remove-item" data-index="${index}">Remove</button>
+                    </div>
+                </div>
+            `;
+            cartItemsContainer.innerHTML += itemHTML;
+        });
+    
+        calculateTotal(); // Update totals after items are loaded
+    }
+    
+    // Submit order using Firebase Firestore
+    confirmBtn.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+    
+        const formData = new FormData(document.getElementById('order-form'));
+        const orderData = {
+            firstName: formData.get('first-name'),
+            lastName: formData.get('last-name'),
+            phoneNumber: formData.get('phone-number'),
+            governorate: formData.get('governorate'),
+            items: []
+        };
+    
+        // Collecting cart items
+        document.querySelectorAll('.cart-item').forEach(item => {
+            const name = item.querySelector('h2').textContent;
+            const price = parseFloat(item.querySelector('.price').textContent);
+            const quantity = parseInt(item.querySelector('.quantity-input').value);
+            orderData.items.push({
+                name: name,
+                price: price,
+                quantity: quantity
+            });
+        });
+    
+        // Save order to Firebase Firestore
+        db.collection("orders").add(orderData)
+            .then(() => {
+                alert('Order placed successfully!');
+                modal.style.display = 'none';
+                localStorage.removeItem('cart'); // Clear cart
+                loadCartItems(); // Refresh cart items
+            })
+            .catch((error) => {
+                console.error('Error placing order: ', error);
+                alert('Error placing order.');
+            });
+    });
+
+
+
+
+
+
+
+
         function loadCartItems() {
             const cartItemsContainer = document.getElementById('cart-items');
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -333,54 +422,13 @@ function populateOrderSummary() {
     orderSummary.innerHTML = summaryHTML;
 }
 
-// Submit order
-confirmBtn.addEventListener('click', function() {
-    const formData = new FormData(document.getElementById('order-form'));
-    const orderData = {
-        firstName: formData.get('first-name'),
-        lastName: formData.get('last-name'),
-        phoneNumber: formData.get('phone-number'),
-        governorate: formData.get('governorate'),
-        items: []
-    };
 
-    document.querySelectorAll('.cart-item').forEach(item => {
-        const name = item.querySelector('h2').textContent;
-        const price = item.querySelector('.price').textContent;
-        const quantity = item.querySelector('.quantity-input').value;
-        orderData.items.push({
-            name: name,
-            price: price,
-            quantity: quantity
-        });
-    });
 
-    fetch('process_order.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Order placed successfully!');
-            modal.style.display = 'none';
-            localStorage.removeItem('cart'); // Clear cart
-            loadCartItems(); // Refresh cart items
-        } else {
-            alert('Error placing order.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error placing order.');
-    });
-});
+    
+
+    
 
 
 </script>
 </body>
 </html>
-                      
