@@ -6,113 +6,24 @@
     <title>Cart Page</title>
     <link rel="stylesheet" href="cart.css">
     <!-- Add Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js"></script>
-</head>
-<body>
-    <nav class="navbar">
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="scrub.html">Scrub</a></li>
-            <li><a href="1medical.html">1medical</a></li>
-            <li><a href="1dental.html">1dental</a></li>
-        </ul>
-    </nav>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-    <div class="cart-container">
-        <h1>Your Shopping Cart</h1>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAiLV07MYvEF_E6rtvKJXdq73RZLi_ja7k",
+            authDomain: "job2-c83ea.firebaseapp.com",
+            projectId: "job2-c83ea",
+            storageBucket: "job2-c83ea.appspot.com",
+            messagingSenderId: "808426922862",
+            appId: "1:808426922862:web:cc0585987f0409b805177f"
+        };
 
-        <div class="cart-items" id="cart-items">
-            <!-- Cart items will be dynamically inserted here -->
-        </div>
-
-        <div class="cart-summary">
-            <h2>Cart Summary</h2>
-            <p>Total Items: <span id="total-items">0</span></p>
-            <p>Total Price: $<span id="total-price">0.00</span></p>
-
-            <div class="discount-section">
-                <label for="discount-code">Discount Code:</label>
-                <input type="text" id="discount-code" placeholder="Enter code">
-                <button id="apply-discount">Apply</button>
-            </div>
-            <p>Discount Applied: $<span id="discount-amount">0.00</span></p>
-            <p>Final Price: $<span id="final-price">0.00</span></p>
-
-            <button class="checkout-button">Check To Buy</button>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-<!-- Modal -->
-<div id="order-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <h2>Order Information</h2>
-        <form id="order-form">
-            <div class="form-group">
-                <label for="first-name">First Name:</label>
-                <input type="text" id="first-name" name="first-name" required>
-            </div>
-            <div class="form-group">
-                <label for="last-name">Last Name:</label>
-                <input type="text" id="last-name" name="last-name" required>
-            </div>
-            <div class="form-group">
-                <label for="phone-number">Phone Number:</label>
-                <input type="text" id="phone-number" name="phone-number" required>
-            </div>
-            <div class="form-group">
-                <label for="governorate">Governorate:</label>
-                <select id="governorate" name="governorate" required>
-                    <option value="">Select Governorate</option>
-                    <option value="Baghdad">Baghdad</option>
-                    <option value="Basra">Basra</option>
-                    <option value="Erbil">Erbil</option>
-                    <option value="Sulaymaniyah">Sulaymaniyah</option>
-                    <option value="Duhok">Duhok</option>
-                    <option value="Najaf">Najaf</option>
-                    <option value="Kufa">Kufa</option>
-                    <option value="Kirkuk">Kirkuk</option>
-                    <option value="Muthanna">Muthanna</option>
-                    <option value="Wasit">Wasit</option>
-                    <option value="Diwaniya">Diwaniya</option>
-                    <option value="Samawah">Samawah</option>
-                    <option value="Dhi Qar">Dhi Qar</option>
-                    <option value="Al-Qadisiyyah">Al-Qadisiyyah</option>
-                    <option value="Anbar">Anbar</option>
-                    <option value="Babylon">Babylon</option>
-                    <option value="Salaheddin">Salaheddin</option>
-                    <option value="Nineveh">Nineveh</option>
-                    <option value="Halabja">Halabja</option>
-                    <option value="Sulaymaniyah">Sulaymaniyah</option>
-                </select>
-            </div>
-            <h3>Products Summary</h3>
-            <div id="order-summary"></div>
-            <div class="modal-buttons">
-                <button type="button" id="cancel-order">Cancel</button>
-                <button type="submit" id="confirm-order">Confirm</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    <script>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         function loadCartItems() {
             const cartItemsContainer = document.getElementById('cart-items');
@@ -157,8 +68,7 @@
             document.getElementById('total-items').textContent = totalItems;
             document.getElementById('total-price').textContent = totalPrice.toFixed(2);
 
-            // Calculate final price after discount
-            applyDiscount(totalPrice);
+            applyDiscount(totalPrice); // Calculate final price after discount
         }
 
         function applyDiscount(totalPrice) {
@@ -202,226 +112,183 @@
             }
         });
 
+        // Modal functionality
+        const modal = document.getElementById('order-modal');
+        const closeBtn = document.querySelector('.close-btn');
+        const checkOutBtn = document.querySelector('.checkout-button');
+        const cancelBtn = document.getElementById('cancel-order');
+        const confirmBtn = document.getElementById('confirm-order');
+        const orderSummary = document.getElementById('order-summary');
+
+        // Show the modal
+        checkOutBtn.addEventListener('click', function() {
+            populateOrderSummary();
+            modal.style.display = 'block';
+        });
+
+        // Hide the modal
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Populate order summary in the modal
+        function populateOrderSummary() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            let summaryHTML = '';
+
+            cartItems.forEach(item => {
+                const name = item.querySelector('h2').textContent;
+                const price = item.querySelector('.price').textContent;
+                const quantity = item.querySelector('.quantity-input').value;
+                summaryHTML += `
+                    <p><strong>Product:</strong> ${name}</p>
+                    <p><strong>Quantity:</strong> ${quantity}</p>
+                    <p><strong>Price:</strong> $${price}</p>
+                `;
+            });
+
+            summaryHTML += `
+                <p><strong>Total Price:</strong> $${document.getElementById('final-price').textContent}</p>
+            `;
+
+            orderSummary.innerHTML = summaryHTML;
+        }
+
+        // Confirm order functionality
+        confirmBtn.addEventListener('click', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const phoneNumber = document.getElementById('phone-number').value;
+            const governorate = document.getElementById('governorate').value;
+            const finalPrice = document.getElementById('final-price').textContent;
+
+            const cartItems = document.querySelectorAll('.cart-item');
+            const products = [];
+
+            cartItems.forEach(item => {
+                const name = item.querySelector('h2').textContent;
+                const price = parseFloat(item.querySelector('.price').textContent);
+                const quantity = parseInt(item.querySelector('.quantity-input').value);
+                
+                products.push({ name, price, quantity });
+            });
+
+            // Create an order object
+            const order = {
+                firstName,
+                lastName,
+                phoneNumber,
+                governorate,
+                products,
+                totalPrice: finalPrice
+            };
+
+            try {
+                // Add order to Firestore
+                await addDoc(collection(db, "orders"), order);
+                console.log("Order successfully sent to Firestore:", order);
+                modal.style.display = 'none'; // Close modal after submission
+                alert("Order confirmed! Thank you for your purchase.");
+            } catch (e) {
+                console.error("Error adding order to Firestore: ", e);
+            }
+        });
+
         // Initialize the total price on page load
         loadCartItems();
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="scrub.html">Scrub</a></li>
+            <li><a href="1medical.html">1medical</a></li>
+            <li><a href="1dental.html">1dental</a></li>
+        </ul>
+    </nav>
 
-        // Calculate total price function
-function calculateTotal() {
-    const cartItems = document.querySelectorAll('.cart-item');
-    let totalItems = 0;
-    let totalPrice = 0;
+    <div class="cart-container">
+        <h1>Your Shopping Cart</h1>
 
-    cartItems.forEach(item => {
-        const priceElement = item.querySelector('.price');
-        const quantityInput = item.querySelector('.quantity-input');
-        const price = parseFloat(priceElement.textContent);
-        const quantity = parseInt(quantityInput.value);
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
 
-        totalItems += quantity;
-        totalPrice += price * quantity;
-    });
+        <div class="cart-summary">
+            <h2>Cart Summary</h2>
+            <p>Total Items: <span id="total-items">0</span></p>
+            <p>Total Price: $<span id="total-price">0.00</span></p>
 
-    document.getElementById('total-items').textContent = totalItems;
-    document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+            <div class="discount-section">
+                <label for="discount-code">Discount Code:</label>
+                <input type="text" id="discount-code" placeholder="Enter code">
+                <button id="apply-discount">Apply</button>
+            </div>
+            <p>Discount Applied: $<span id="discount-amount">0.00</span></p>
+            <p>Final Price: $<span id="final-price">0.00</span></p>
 
-    // Calculate final price after discount
-    applyDiscount(totalPrice);
-}
+            <button class="checkout-button">Check To Buy</button>
+        </div>
+    </div>
 
-// Function to apply discount
-function applyDiscount(totalPrice) {
-    const discountCode = document.getElementById('discount-code').value.trim();
-    const discountAmountElement = document.getElementById('discount-amount');
-    const finalPriceElement = document.getElementById('final-price');
-    let discountAmount = 0;
-
-    // Example discount codes
-    const discounts = {
-        'MMC5': 10,
-        'ALNOOR': 20,
-        'ALHADBAA': 30
-    };
-
-    if (discounts.hasOwnProperty(discountCode.toUpperCase())) {
-        discountAmount = (totalPrice * discounts[discountCode.toUpperCase()]) / 100;
-    }
-
-    discountAmountElement.textContent = discountAmount.toFixed(2);
-    finalPriceElement.textContent = (totalPrice - discountAmount).toFixed(2);
-}
-
-// Add event listeners to quantity inputs
-document.querySelectorAll('.quantity-input').forEach(input => {
-    input.addEventListener('change', calculateTotal);
-});
-
-// Add event listener to apply discount button
-document.getElementById('apply-discount').addEventListener('click', function() {
-    const totalPrice = parseFloat(document.getElementById('total-price').textContent);
-    applyDiscount(totalPrice);
-});
-
-// Initialize the total price on page load
-calculateTotal();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Modal functionality
-const modal = document.getElementById('order-modal');
-const closeBtn = document.querySelector('.close-btn');
-const checkOutBtn = document.querySelector('.checkout-button');
-const cancelBtn = document.getElementById('cancel-order');
-const confirmBtn = document.getElementById('confirm-order');
-const orderSummary = document.getElementById('order-summary');
-
-// Show the modal
-checkOutBtn.addEventListener('click', function() {
-    populateOrderSummary();
-    modal.style.display = 'block';
-});
-
-// Hide the modal
-closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-
-cancelBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-
-// Populate order summary in the modal
-function populateOrderSummary() {
-    const cartItems = document.querySelectorAll('.cart-item');
-    let summaryHTML = '';
-
-    cartItems.forEach(item => {
-        const name = item.querySelector('h2').textContent;
-        const price = item.querySelector('.price').textContent;
-        const quantity = item.querySelector('.quantity-input').value;
-        summaryHTML += `
-            <p><strong>Product:</strong> ${name}</p>
-            <p><strong>Quantity:</strong> ${quantity}</p>
-            <p><strong>Price:</strong> $${price}</p>
-        `;
-    });
-
-    summaryHTML += `
-        <p><strong>Total Price:</strong> $${document.getElementById('final-price').textContent}</p>
-    `;
-
-    orderSummary.innerHTML = summaryHTML;
-}
-
-
-
-    
-
-
-
-// Firebase configuration
-const firebaseConfig = {
-        apiKey: "AIzaSyAO2m0XnUgE6LhgK1E8sN2Tx_8jyNgWOtg",
-        authDomain: "job1-c4a0b.firebaseapp.com",
-        projectId: "job1-c4a0b",
-        storageBucket: "job1-c4a0b.appspot.com",
-        messagingSenderId: "734019774401",
-        appId: "1:734019774401:web:fb09bd4d3d8bf8fc5ab140",
-        measurementId: "G-TBHCSHVLXQ"
-    };
-    
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore(); // Initialize Firestore
-    
-    // Load cart items function remains unchanged
-    function loadCartItems() {
-        const cartItemsContainer = document.getElementById('cart-items');
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-        cartItemsContainer.innerHTML = ''; // Clear any existing items
-    
-        cart.forEach((item, index) => {
-            const itemHTML = `
-                <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}">
-                    <div class="item-details">
-                        <h2>${item.name}</h2>
-                        <p class="item-price">Price: $<span class="price">${item.price}</span></p>
-                        <label for="quantity${index}">Quantity:</label>
-                        <input type="number" id="quantity${index}" name="quantity${index}" min="1" value="1" class="quantity-input">
-                        <button class="remove-item" data-index="${index}">Remove</button>
-                    </div>
+    <!-- Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Order Information</h2>
+            <form id="order-form">
+                <div class="form-group">
+                    <label for="first-name">First Name:</label>
+                    <input type="text" id="first-name" name="first-name" required>
                 </div>
-            `;
-            cartItemsContainer.innerHTML += itemHTML;
-        });
-    
-        calculateTotal(); // Update totals after items are loaded
-    }
-    
-    // Submit order using Firebase Firestore
-    confirmBtn.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default form submission
-    
-        const formData = new FormData(document.getElementById('order-form'));
-        const orderData = {
-            firstName: formData.get('first-name'),
-            lastName: formData.get('last-name'),
-            phoneNumber: formData.get('phone-number'),
-            governorate: formData.get('governorate'),
-            items: []
-        };
-    
-        // Collecting cart items
-        document.querySelectorAll('.cart-item').forEach(item => {
-            const name = item.querySelector('h2').textContent;
-            const price = parseFloat(item.querySelector('.price').textContent);
-            const quantity = parseInt(item.querySelector('.quantity-input').value);
-            orderData.items.push({
-                name: name,
-                price: price,
-                quantity: quantity
-            });
-        });
-    
-        // Save order to Firebase Firestore
-        db.collection("orders").add(orderData)
-            .then(() => {
-                alert('Order placed successfully!');
-                modal.style.display = 'none';
-                localStorage.removeItem('cart'); // Clear cart
-                loadCartItems(); // Refresh cart items
-            })
-            .catch((error) => {
-                console.error('Error placing order: ', error);
-                alert('Error placing order.');
-            });
-    });
-
-
-    
-
-
-</script>
+                <div class="form-group">
+                    <label for="last-name">Last Name:</label>
+                    <input type="text" id="last-name" name="last-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone-number">Phone Number:</label>
+                    <input type="text" id="phone-number" name="phone-number" required>
+                </div>
+                <div class="form-group">
+                    <label for="governorate">Governorate:</label>
+                    <select id="governorate" name="governorate" required>
+                        <option value="">Select Governorate</option>
+                        <option value="Baghdad">Baghdad</option>
+                        <option value="Basra">Basra</option>
+                        <option value="Erbil">Erbil</option>
+                        <option value="Sulaymaniyah">Sulaymaniyah</option>
+                        <option value="Duhok">Duhok</option>
+                        <option value="Najaf">Najaf</option>
+                        <option value="Kufa">Kufa</option>
+                        <option value="Kirkuk">Kirkuk</option>
+                        <option value="Muthanna">Muthanna</option>
+                        <option value="Wasit">Wasit</option>
+                        <option value="Diwaniya">Diwaniya</option>
+                        <option value="Samawah">Samawah</option>
+                        <option value="Dhi Qar">Dhi Qar</option>
+                        <option value="Al-Qadisiyyah">Al-Qadisiyyah</option>
+                        <option value="Anbar">Anbar</option>
+                        <option value="Babylon">Babylon</option>
+                        <option value="Salaheddin">Salaheddin</option>
+                        <option value="Nineveh">Nineveh</option>
+                        <option value="Halabja">Halabja</option>
+                    </select>
+                </div>
+                <h3>Products Summary</h3>
+                <div id="order-summary"></div>
+                <div class="modal-buttons">
+                    <button type="button" id="cancel-order">Cancel</button>
+                    <button type="submit" id="confirm-order">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
