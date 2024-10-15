@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="show.css">
+</head>
+<body>
+    <div class="product-container">
+        <button class="return-button" onclick="window.history.back()">Return to Last Page</button>
+        <div class="slider">
+            <div class="slides">
+                <div class="slide">
+                    <img src="IMG_6209.JPEG" alt="Product Image 1">
+                </div>
+                <div class="slide">
+                    <img src="IMG_6210.JPEG" alt="Product Image 2">
+                </div>
+                <div class="slide">
+                    <img src="IMG_6211.JPEG" alt="Product Image 3">
+                </div>
+            </div>
+            <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+        <p class="description"> Dr. Stethoscope <br> دقة طبية لا مثيل لها <br> لأطباء يهتمون بكل تفصيل <br> الأشهر و الاكثر استخدام بين الأطباء <br> متوفر باللونين الأسود و الرصاصي <br>مناسب للطلاب و الخريجين</p>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+
+
+
+
+<script>
+    let currentIndex = 0;
+
+function showSlide(index) {
+    const slides = document.querySelector('.slides');
+    const totalSlides = document.querySelectorAll('.slide').length;
+    if (index >= totalSlides) {
+        currentIndex = 0;
+    } else if (index < 0) {
+        currentIndex = totalSlides - 1;
+    } else {
+        currentIndex = index;
+    }
+    slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+}
+
+// Function to handle slide navigation
+function moveSlide(step) {
+    showSlide(currentIndex + step);
+}
+
+// Initialize the slider
+showSlide(currentIndex);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Function to handle returning to the previous page
+function returnToLastPage() {
+    window.history.back();
+}
+
+// Attach the function to the button click event
+document.addEventListener('DOMContentLoaded', function() {
+    const backButton = document.querySelector('.return-button');
+    if (backButton) {
+        backButton.addEventListener('click', returnToLastPage);
+    }
+});
+
+</script>
+
+</html>
